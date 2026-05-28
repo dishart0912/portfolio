@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nivara — Disha Takawale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#1a1207;--gold:#c8992a;--gold-light:#e8b84b;--gold-pale:#f7edd6;--pink:#d94f7a;--pink-light:#e87fa0;--cream:#fdf6e8;--warm-white:#fffdf6;--muted:#7a6a55;--border:#e8d9b8;--card:#ffffff;--shadow:rgba(26,18,7,0.07);--shadow-deep:rgba(26,18,7,0.18)}
+  html{scroll-behavior:smooth;font-size:16px}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.6}
+  ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--gold-pale)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+  h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:500;line-height:1.1}
+
+  /* ── CURSOR ── */
+  .cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,background .2s;mix-blend-mode:multiply}
+  .cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .18s ease,opacity .3s;opacity:.5}
+
+  /* ── PROGRESS BAR ── */
+  .read-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--pink));z-index:200;width:0%;transition:width .1s linear}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,232,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--ink);text-decoration:none}
+  .nav-logo span{color:var(--pink)}
+  .nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+  .nav-links a{text-decoration:none;color:var(--muted);font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;transition:color .25s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-resume-btn{padding:9px 22px;background:var(--ink);color:var(--cream);border-radius:2px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .25s;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif}
+  .nav-resume-btn:hover{background:var(--gold);color:var(--ink)}
+  @media(max-width:768px){nav{padding:16px 22px}.nav-links li:not(:last-child) a{display:none}.nav-links{gap:14px}}
+
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 34px;border-radius:2px;font-weight:700;font-size:.88rem;letter-spacing:.05em;text-decoration:none;border:none;cursor:pointer;transition:all .3s;font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase}
+  .btn-dark{background:var(--ink);color:var(--cream)}.btn-dark:hover{background:var(--gold);color:var(--ink);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--ink);border:2px solid var(--ink)}.btn-outline:hover{background:var(--ink);color:var(--cream)}
+
+  .fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .fade-up.visible{opacity:1;transform:translateY(0)}
+
+  footer{border-top:1px solid var(--border);padding:36px 60px;display:flex;align-items:center;justify-content:space-between}
+  footer p{font-size:.82rem;color:var(--muted)}
+  .footer-logo{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--ink);font-weight:700}
+
+  .cs-hero{padding:140px 60px 80px;max-width:1200px;margin:0 auto}
+  .cs-back{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;margin-bottom:40px}
+  .cs-back:hover{color:var(--gold)}
+  .cs-back svg{width:16px;height:16px;transition:transform .2s}
+  .cs-back:hover svg{transform:translateX(-4px)}
+  .cs-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pink);font-weight:700;margin-bottom:16px;opacity:0;animation:fadeUp .8s .1s forwards}
+  .cs-eyebrow::before{content:'';width:22px;height:2px;background:var(--pink)}
+  .cs-title{font-size:clamp(2.8rem,6vw,5rem);color:var(--ink);margin-bottom:16px;opacity:0;animation:fadeUp .8s .25s forwards}
+  .cs-subtitle{font-size:1.15rem;color:var(--muted);font-weight:300;line-height:1.7;max-width:680px;margin-bottom:48px;opacity:0;animation:fadeUp .8s .4s forwards}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+  .cs-meta{display:flex;gap:0;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:60px;background:var(--warm-white);opacity:0;animation:fadeUp .8s .55s forwards}
+  .cs-meta-item{flex:1;padding:20px 24px;border-right:1px solid var(--border);transition:background .2s}
+  .cs-meta-item:last-child{border-right:none}
+  .cs-meta-item:hover{background:var(--gold-pale)}
+  .cs-meta-label{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}
+  .cs-meta-value{font-size:.95rem;color:var(--ink);font-weight:600}
+
+  .cs-cover{width:100%;max-width:1000px;margin:0 auto 80px;padding:0 60px}
+  .cs-cover-img{width:100%;border-radius:4px;overflow:hidden;border:1px solid var(--border);box-shadow:0 24px 60px var(--shadow-deep);background:var(--gold-pale);min-height:400px;display:flex;align-items:center;justify-content:center}
+  .cs-cover-img img{width:100%;display:block;border-radius:4px;transition:transform .6s ease}
+  .cs-cover-img:hover img{transform:scale(1.02)}
+  .cs-cover-video{width:100%;border-radius:4px;overflow:hidden;border:1px solid var(--border);box-shadow:0 24px 60px var(--shadow-deep);background:#1a1207}
+  .cs-cover-video video{width:100%;display:block;max-height:600px;object-fit:cover}
+  .placeholder-box{width:100%;min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,var(--gold-pale),rgba(217,79,122,.08));border-radius:4px}
+  .placeholder-box .icon{font-size:3rem;opacity:.4}
+  .placeholder-box p{font-size:.85rem;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:center;max-width:300px;line-height:1.6}
+
+  .cs-body{max-width:1200px;margin:0 auto;padding:0 60px 100px}
+  .cs-section{margin-bottom:72px}
+  .cs-section-label{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--pink);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .cs-section-label::before{content:'';width:18px;height:2px;background:var(--pink)}
+  .cs-section h2{font-size:clamp(1.8rem,3vw,2.6rem);color:var(--ink);margin-bottom:20px}
+  .cs-section p{font-size:1rem;color:var(--muted);line-height:1.9;font-weight:300;margin-bottom:16px}
+  .cs-section p strong{color:var(--ink);font-weight:700}
+
+  .cs-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .cs-tag{padding:6px 16px;background:rgba(200,153,42,.12);color:var(--gold);font-size:.78rem;font-weight:700;border-radius:20px;letter-spacing:.04em;transition:all .2s;cursor:default}
+  .cs-tag:hover{background:var(--gold);color:var(--ink)}
+
+  .cs-highlight-box{background:linear-gradient(135deg,rgba(200,153,42,.08),rgba(217,79,122,.06));border-left:3px solid var(--gold);border-radius:0 4px 4px 0;padding:28px 32px;margin-bottom:20px}
+  .cs-highlight-box p{font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic;color:var(--ink);line-height:1.7;margin:0}
+
+  .cs-nav{display:flex;gap:16px;justify-content:space-between;padding:40px 60px;border-top:1px solid var(--border);background:var(--warm-white);max-width:100%}
+  .cs-nav-link{display:flex;flex-direction:column;gap:4px;text-decoration:none;padding:16px 24px;border:1px solid var(--border);border-radius:4px;transition:all .3s;flex:1;max-width:280px}
+  .cs-nav-link:hover{border-color:var(--gold);background:var(--gold-pale);transform:translateY(-2px)}
+  .cs-nav-link .nav-dir{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .cs-nav-link .nav-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ink)}
+  .cs-nav-link.right{text-align:right;margin-left:auto}
+
+  /* ═══════════════════════════════════════════════
+     PANEL CARDS
+  ═══════════════════════════════════════════════ */
+  .panel-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-top:8px;
+  }
+  .panel-card{
+    border:1px solid var(--border);border-radius:8px;overflow:hidden;
+    background:var(--warm-white);box-shadow:0 4px 20px var(--shadow);
+    cursor:pointer;
+    transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .25s;
+    position:relative;display:flex;flex-direction:column;
+  }
+  .panel-card:hover{transform:translateY(-10px);box-shadow:0 28px 60px var(--shadow-deep);border-color:var(--gold)}
+
+  .panel-card-strip{height:4px;width:100%;flex-shrink:0}
+  .panel-card-strip.user  {background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+  .panel-card-strip.seller{background:linear-gradient(90deg,var(--pink),var(--pink-light))}
+  .panel-card-strip.admin {background:linear-gradient(90deg,#6c5ce7,#a29bfe)}
+
+  .panel-card-thumb{
+    width:100%;height:220px;overflow:hidden;
+    background:var(--gold-pale);position:relative;flex-shrink:0;
+  }
+  .panel-card-thumb img{
+    width:100%;height:100%;object-fit:cover;object-position:top;
+    display:block;transition:transform .5s ease;
+  }
+  .panel-card:hover .panel-card-thumb img{transform:scale(1.07)}
+
+  .panel-card-thumb-ph{
+    width:100%;height:100%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(135deg,var(--gold-pale),rgba(217,79,122,.07));
+  }
+  .panel-card-thumb-ph .ph-icon{font-size:2.6rem;opacity:.35}
+  .panel-card-thumb-ph .ph-lbl{font-size:.72rem;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+
+  .panel-card-overlay{
+    position:absolute;inset:0;
+    background:rgba(26,18,7,.5);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;transition:opacity .3s;
+  }
+  .panel-card:hover .panel-card-overlay{opacity:1}
+  .panel-overlay-btn{
+    color:#fff;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    border:1.5px solid rgba(255,255,255,.65);padding:10px 24px;border-radius:2px;
+    transition:background .2s,color .2s,border-color .2s;
+  }
+  .panel-card:hover .panel-overlay-btn{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+  .panel-card-body{padding:22px 24px 26px;flex:1;display:flex;flex-direction:column;gap:7px}
+  .panel-card-idx{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .panel-card-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--ink);line-height:1.1}
+  .panel-card-desc{font-size:.86rem;color:var(--muted);line-height:1.7;font-weight:300;flex:1}
+  .panel-card-count{
+    display:inline-flex;align-items:center;gap:6px;margin-top:6px;
+    font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);
+  }
+
+  @media(max-width:900px){.panel-grid{grid-template-columns:1fr}}
+
+  /* ═══════════════════════════════════════════════
+     PANEL MODALS
+  ═══════════════════════════════════════════════ */
+  .panel-modal-bg{
+    display:none;position:fixed;inset:0;
+    background:rgba(26,18,7,.88);z-index:700;
+    backdrop-filter:blur(8px);
+    overflow-y:auto;
+    /* flex centering done via padding + margin on .panel-modal */
+  }
+  .panel-modal-bg.open{display:block}
+
+  .panel-modal{
+    background:var(--cream);
+    width:calc(100% - 80px);max-width:1080px;
+    margin:48px auto 64px;
+    border-radius:8px;overflow:hidden;
+    box-shadow:0 40px 80px rgba(26,18,7,.45);
+    animation:modalIn .36s cubic-bezier(.16,1,.3,1);
+  }
+  @keyframes modalIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:none scale(1)}}
+
+  .panel-modal-head{
+    padding:30px 40px 28px;border-bottom:1px solid var(--border);
+    background:var(--warm-white);
+    display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
+    position:sticky;top:0;z-index:10;
+  }
+  .pmh-left{display:flex;flex-direction:column;gap:3px}
+  .pmh-eyebrow{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .pmh-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--ink)}
+  .pmh-close{
+    width:38px;height:38px;flex-shrink:0;margin-top:4px;
+    background:var(--cream);border:1px solid var(--border);border-radius:50%;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    font-size:1rem;color:var(--muted);transition:all .2s;
+  }
+  .pmh-close:hover{background:var(--ink);color:var(--cream);border-color:var(--ink);transform:rotate(90deg)}
+
+  .panel-modal-body{padding:36px 40px 48px}
+
+  /* grids inside modal */
+  .pmg-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+  .pmg-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .pmg-1{margin-bottom:16px}
+
+  /* individual screen card inside modal */
+  .ms-card{
+    border-radius:4px;overflow:hidden;border:1px solid var(--border);
+    background:var(--gold-pale);box-shadow:0 4px 14px var(--shadow);
+    cursor:zoom-in;transition:transform .25s,box-shadow .25s;position:relative;
+  }
+  .ms-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px var(--shadow-deep)}
+  .ms-card img{
+    width:100%;height:260px;object-fit:cover;object-position:top;
+    display:block;transition:transform .4s ease;
+  }
+  .ms-card:hover img{transform:scale(1.04)}
+  .ms-card::after{
+    content:'⤢';position:absolute;top:8px;right:8px;
+    width:26px;height:26px;background:rgba(26,18,7,.58);color:#fff;
+    border-radius:3px;display:flex;align-items:center;justify-content:center;
+    font-size:.75rem;opacity:0;transition:opacity .2s;
+  }
+  .ms-card:hover::after{opacity:1}
+  .ms-caption{
+    font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;
+    font-weight:600;padding:8px 12px;text-align:center;
+    background:var(--warm-white);border-top:1px solid var(--border);
+  }
+  /* placeholder inside modal card */
+  .ms-card .placeholder-box{min-height:260px}
+
+  @media(max-width:768px){
+    .panel-modal{width:100%;margin:0;border-radius:0}
+    .panel-modal-head{padding:20px 20px 18px;position:relative}
+    .panel-modal-body{padding:20px 20px 40px}
+    .pmg-3,.pmg-2{grid-template-columns:1fr}
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(26,18,7,.96);z-index:900;align-items:center;justify-content:center;padding:40px}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:90vw;max-height:86vh;object-fit:contain;border-radius:4px;box-shadow:0 40px 80px rgba(0,0,0,.5);animation:lbIn .22s ease;transition:opacity .14s}
+  @keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+  .lb-close{position:absolute;top:20px;right:24px;width:40px;height:40px;background:rgba(253,246,232,.1);border:1px solid rgba(253,246,232,.2);border-radius:50%;color:var(--cream);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .lb-close:hover{background:var(--gold);color:var(--ink)}
+  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(253,246,232,.1);border:1px solid rgba(253,246,232,.2);border-radius:50%;color:var(--cream);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .lb-nav:hover{background:var(--gold);color:var(--ink)}
+  .lb-prev{left:20px}
+  .lb-next{right:20px}
+
+  @media(max-width:768px){
+    .cs-hero,.cs-cover,.cs-body{padding-left:24px;padding-right:24px}
+    .cs-meta{flex-wrap:wrap}.cs-meta-item{min-width:50%;border-bottom:1px solid var(--border)}
+    .cs-nav{flex-direction:column;padding:30px 24px}
+    footer{padding:28px}
+  }
+  /* ═══════════════════════════════
+   Nivara Floating Logo Visual
+═══════════════════════════════ */
+
+/* ═══════════════════════════════
+   Nivara Floating Logo (Clean)
+═══════════════════════════════ */
+
+.nivara-hero-visual{
+  position:absolute;
+  right:60px;
+  top:40%;
+  z-index:1;
+  pointer-events:none; /* makes it feel like background element */
+}
+
+.nivara-logo-card{
+  background:none;           /* ❌ removed box */
+  backdrop-filter:none;
+  border:none;
+  padding:0;
+  box-shadow:none;
+  animation:floatLogo 6s ease-in-out infinite;
+}
+
+/* BIGGER LOGO */
+.nivara-logo-card img{
+  width:320px;   /* 🔥 increased size */
+  max-width:40vw;
+  display:block;
+  filter:drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+}
+
+/* FLOATING ANIMATION */
+@keyframes floatLogo{
+  0%{transform:translateY(0px)}
+  50%{transform:translateY(-20px)}
+  100%{transform:translateY(0px)}
+}
+
+/* OPTIONAL: slight rotation for premium feel */
+.nivara-logo-card img{
+  animation:floatLogo 6s ease-in-out infinite,
+            subtleTilt 8s ease-in-out infinite;
+}
+
+@keyframes subtleTilt{
+  0%,100%{transform:rotate(0deg)}
+  50%{transform:rotate(1.5deg)}
+}
+
+/* ❌ HIDE ON MOBILE */
+@media(max-width:900px){
+  .nivara-hero-visual{
+    display:none;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+<div class="read-progress" id="read-progress"></div>
+
+<!-- ═══ LIGHTBOX ═══ -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lb-close">✕</button>
+  <button class="lb-nav lb-prev" id="lb-prev">‹</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-nav lb-next" id="lb-next">›</button>
+</div>
+
+<!-- ═══ USER PANEL MODAL ═══ -->
+<div class="panel-modal-bg" id="modal-user">
+  <div class="panel-modal">
+    <div class="panel-modal-head">
+      <div class="pmh-left">
+        <span class="pmh-eyebrow">01 · Customer Interface</span>
+        <h2 class="pmh-title">User Panel</h2>
+      </div>
+      <button class="pmh-close" data-close="modal-user">✕</button>
+    </div>
+    <div class="panel-modal-body">
+
+      <div class="pmg-3">
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-landing-page.png" alt="Landing Page">
+          <p class="ms-caption">Landing Page</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-login-signup-page.png" alt="Product Details">
+          <p class="ms-caption">Login Signup</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-categories-page.png" alt="Product Categories">
+          <p class="ms-caption">Product Categories</p>
+        </div>
+        <div class="ms-card">
+          <img src="../assets/images/nivara/user-product-page.png" alt="Product Details">
+          <p class="ms-caption">Product Details</p>
+        </div>
+        
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-categories-page.png" alt="Product Details">
+          <p class="ms-caption">Categories</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-my-cart-page.png" alt="Product Details">
+          <p class="ms-caption">My Cart</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-checkout-page.png" alt="Product Details">
+          <p class="ms-caption">Checkout</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-payment-page.png" alt="Product Details">
+          <p class="ms-caption">Payment</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-account-settings-page.png" alt="Product Details">
+          <p class="ms-caption">Account Settings</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-location-settings-page.png" alt="Product Details">
+          <p class="ms-caption">Location Settings</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-notification-page.png" alt="Product Details">
+          <p class="ms-caption">Notification Setting</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-contact-us-page.png" alt="Product Details">
+          <p class="ms-caption">Contact Us</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-empty-cart-page.png" alt="Product Details">
+          <p class="ms-caption">Empty Cart</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-success-page.png" alt="Product Details">
+          <p class="ms-caption">Success</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/user-404-error-page.png" alt="Product Details">
+          <p class="ms-caption">404 Error</p>
+        </div>
+      </div>
+
+
+      <!--
+        TO ADD MORE USER SCREENS — copy-paste an ms-card block anywhere above.
+        Wrap in pmg-3 (3-col), pmg-2 (2-col), or pmg-1 (full-width).
+      -->
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SELLER PANEL MODAL ═══ -->
+<div class="panel-modal-bg" id="modal-seller">
+  <div class="panel-modal">
+    <div class="panel-modal-head">
+      <div class="pmh-left">
+        <span class="pmh-eyebrow">02 · Seller Interface</span>
+        <h2 class="pmh-title">Seller Dashboard</h2>
+      </div>
+      <button class="pmh-close" data-close="modal-seller">✕</button>
+    </div>
+    <div class="panel-modal-body">
+
+      <div class="pmg-2">
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-sell-your-products.png" alt="Seller Analytics">
+          <p class="ms-caption">Seller Dashboard</p>
+        </div>
+
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-create-seller-account.png" alt="Seller Analytics">
+          <p class="ms-caption">Create Account</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-shop-details.png" alt="Seller Analytics">
+          <p class="ms-caption">Shop Details</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-dashboard-home.png" alt="Seller Analytics">
+          <p class="ms-caption">Home Page</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-dashboard-orders.png" alt="Seller Analytics">
+          <p class="ms-caption">Orders</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-view-order.png" alt="Seller Analytics">
+          <p class="ms-caption">View Order</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-dashboard-products.png" alt="Seller Analytics">
+          <p class="ms-caption">Products</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-view-product-details.png" alt="Seller Analytics">
+          <p class="ms-caption">View Product Details</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-add-product.png" alt="Seller Analytics">
+          <p class="ms-caption">Add Product</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-bank-details.png" alt="Seller Analytics">
+          <p class="ms-caption">Bank Details</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/seller-location-details.png" alt="Seller Analytics">
+          <p class="ms-caption">Location Details</p>
+        </div>
+
+      <!--
+        TO ADD MORE SELLER SCREENS — copy-paste an ms-card block and wrap in pmg-2 or pmg-3.
+      -->
+    </div>    
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN PANEL MODAL ═══ -->
+<div class="panel-modal-bg" id="modal-admin">
+  <div class="panel-modal">
+    <div class="panel-modal-head">
+      <div class="pmh-left">
+        <span class="pmh-eyebrow">03 · Admin Interface</span>
+        <h2 class="pmh-title">Admin Panel</h2>
+      </div>
+      <button class="pmh-close" data-close="modal-admin">✕</button>
+    </div>
+    <div class="panel-modal-body">
+
+      <div class="pmg-2">
+        <div class="ms-card">
+          <img src="/assets/images/nivara/admin-dashboard.png" alt="Admin Overview">
+          <p class="ms-caption">Dashboard</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/admin-login.png" alt="Admin Overview">
+          <p class="ms-caption">Login</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/admin-requests.png" alt="Admin Overview">
+          <p class="ms-caption">Requests</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/admin-requests-view.png" alt="Admin Overview">
+          <p class="ms-caption">Requests View</p>
+        </div>
+        <div class="ms-card">
+          <img src="/assets/images/nivara/admin-active-products.png" alt="Admin Overview">
+          <p class="ms-caption">Active Products</p>
+        </div>
+      </div>
+
+      <!--
+        TO ADD MORE ADMIN SCREENS — copy-paste an ms-card block and wrap in pmg-2 or pmg-3.
+      -->
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ PAGE ═══ -->
+<nav>
+  <a href="../index.html" class="nav-logo">Disha<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#work">Work</a></li>
+    <li><a href="../index.html#experience">Experience</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="cs-hero">
+  <div class="nivara-hero-visual">
+  <div class="nivara-logo-card">
+    <img src="/assets/images/nivara/nivara-logo.png" alt="Nivara Logo">
+  </div>
+</div>
+  <a href="../index.html#work" class="cs-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    All Projects
+  </a>
+  <p class="cs-eyebrow">UI/UX Design · E-commerce</p>
+  <h1 class="cs-title">Nivara</h1>
+  <p class="cs-subtitle">Nivara is a seller-centric platform designed to empower small businesses by streamlining operations through an intuitive, timeline-based interface. This project leverages strategic UI/UX design to bridge the gap between local entrepreneurs and digital growth, fostering both high engagement and operational efficiency.</p>
+  <div class="cs-meta">
+    <div class="cs-meta-item"><div class="cs-meta-label">Role</div><div class="cs-meta-value">UI/UX Designer</div></div>
+    <div class="cs-meta-item"><div class="cs-meta-label">Timeline</div><div class="cs-meta-value">4 Weeks</div></div>
+    <div class="cs-meta-item"><div class="cs-meta-label">Tools</div><div class="cs-meta-value">Figma</div></div>
+    <div class="cs-meta-item"><div class="cs-meta-label">Platform</div><div class="cs-meta-value">Web</div></div>
+  </div>
+</div>
+
+<div class="cs-cover">
+  <div class="cs-cover-video">
+    <video autoplay muted loop playsinline>
+      <source src="/assets/videos/nivara-covervideo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<div class="cs-body">
+  <div class="cs-section fade-up">
+  <p class="cs-section-label">Problem</p>
+  <h2>Problem Statement</h2>
+  <p>
+    Small businesses often struggle to sell online due to lack of trust, visibility, and complex onboarding systems. 
+    Existing e-commerce platforms allow instant product listings, which increases the risk of fake or low-quality products, 
+    ultimately reducing user trust.
+  </p>
+  <p>
+    There is a need for a platform that not only empowers sellers but also ensures a safe and reliable shopping experience for users.
+  </p>
+</div>
+<div class="cs-section fade-up">
+  <p class="cs-section-label">Solution</p>
+  <h2>Design Solution</h2>
+  <p>
+    Nivara introduces a moderated marketplace model where product listings are verified before going live. 
+    This ensures higher trust, reduces fraudulent listings, and maintains platform quality.
+  </p>
+  <p>
+    The platform is divided into three core interfaces — User, Seller, and Admin — each designed to simplify workflows 
+    while maintaining control and transparency across the system.
+  </p>
+  <div class="cs-highlight-box">
+    <p>
+      The key idea was to balance <strong>ease of selling</strong> with <strong>platform trust</strong>.
+    </p>
+  </div>
+</div>
+  <div class="cs-section fade-up">
+    <p class="cs-section-label">Overview</p>
+    <h2>About the Project</h2>
+    <p>Nivara is a moderated e-commerce platform designed to empower small businesses while maintaining platform trust.
+Sellers can list products, but every listing goes through an admin approval system before going live. This ensures quality control, prevents fake or misleading products, and creates a reliable shopping experience for users.</p>
+    <div class="cs-tags">
+      <span class="cs-tag">Figma</span>
+      <span class="cs-tag">E-commerce</span>
+      <span class="cs-tag">UI Design</span>
+      <span class="cs-tag">Product Design</span>
+    </div>
+  </div>
+  <div class="cs-section fade-up">
+  <p class="cs-section-label">System Flow</p>
+  <h2>How the Platform Works</h2>
+
+  <p><strong>1. Seller Listing:</strong> Sellers add product details, images, pricing, and inventory.</p>
+
+  <p><strong>2. Admin Moderation:</strong> Instead of going live instantly, the product enters a verification queue where the admin reviews it for quality, accuracy, and authenticity.</p>
+
+  <p><strong>3. Approval & Publishing:</strong> Once approved, the product becomes visible to users in the marketplace.</p>
+
+  <p><strong>4. Continuous Control:</strong> The admin retains the ability to remove or disable products at any time, ensuring ongoing platform integrity and preventing misuse.</p>
+
+  <p><strong>5. User Experience:</strong> Users can confidently browse and purchase products, knowing that all listings are verified.</p>
+</div>
+
+  <!-- ═══ FULL ECOSYSTEM — 3 PANEL CARDS ═══ -->
+  <div class="cs-section fade-up">
+    <p class="cs-section-label">Design Screens</p>
+    <h2>The Full Ecosystem</h2>
+    <p>Nivara features a comprehensive architecture — a customer storefront, a seller dashboard, and an admin control center. Click any panel to explore all its screens.</p>
+
+    <div class="panel-grid">
+
+      <!-- USER PANEL CARD -->
+      <div class="panel-card" onclick="openPanel('modal-user')">
+        <div class="panel-card-strip user"></div>
+        <div class="panel-card-thumb">
+          <img src="/assets/images/nivara/user-panel-cover.png" alt="User Panel"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="panel-card-thumb-ph" style="display:none">
+            <div class="ph-icon">🛍</div>
+            <div class="ph-lbl">Add preview image</div>
+          </div>
+          <div class="panel-card-overlay">
+            <span class="panel-overlay-btn">Explore Panel →</span>
+          </div>
+        </div>
+        <div class="panel-card-body">
+          <span class="panel-card-idx">01</span>
+          <h3 class="panel-card-title">User Panel</h3>
+          <p class="panel-card-desc">Customer-facing storefront — browse, discover, cart, and checkout experience designed for ease and delight.</p>
+          <span class="panel-card-count">15 screens &nbsp;→</span>
+        </div>
+      </div>
+
+      <!-- SELLER PANEL CARD -->
+      <div class="panel-card" onclick="openPanel('modal-seller')">
+        <div class="panel-card-strip seller"></div>
+        <div class="panel-card-thumb">
+          <img src="/assets/images/nivara/seller-panel-cover.png" alt="Seller Panel"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="panel-card-thumb-ph" style="display:none">
+            <div class="ph-icon">📊</div>
+            <div class="ph-lbl">Add preview image</div>
+          </div>
+          <div class="panel-card-overlay">
+            <span class="panel-overlay-btn">Explore Panel →</span>
+          </div>
+        </div>
+        <div class="panel-card-body">
+          <span class="panel-card-idx">02</span>
+          <h3 class="panel-card-title">Seller Panel</h3>
+          <p class="panel-card-desc">Empowering sellers with analytics, inventory management, and a timeline-based operations view.</p>
+          <span class="panel-card-count">11 screens &nbsp;→</span>
+        </div>
+      </div>
+
+      <!-- ADMIN PANEL CARD -->
+      <div class="panel-card" onclick="openPanel('modal-admin')">
+        <div class="panel-card-strip admin"></div>
+        <div class="panel-card-thumb">
+          <img src="/assets/images/nivara/admin-panel-cover.png" alt="Admin Panel"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="panel-card-thumb-ph" style="display:none">
+            <div class="ph-icon">🛡</div>
+            <div class="ph-lbl">Add preview image</div>
+          </div>
+          <div class="panel-card-overlay">
+            <span class="panel-overlay-btn">Explore Panel →</span>
+          </div>
+        </div>
+        <div class="panel-card-body">
+          <span class="panel-card-idx">03</span>
+          <h3 class="panel-card-title">Admin Panel</h3>
+          <p class="panel-card-desc">Oversight layer for platform management — seller verification, approvals, and system monitoring.</p>
+          <span class="panel-card-count">5 screens &nbsp;→</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  
+<div class="cs-section fade-up">
+  <p class="cs-section-label">Features</p>
+  <h2>Key Features</h2>
+
+  <p><strong>✔ Admin Approval System:</strong> Ensures only verified products are visible to users.</p>
+
+  <p><strong>✔ Seller Dashboard:</strong> Allows sellers to manage products, orders, and business details efficiently.</p>
+
+  <p><strong>✔ Secure Shopping Experience:</strong> Users can browse and purchase with confidence due to moderated listings.</p>
+
+  <p><strong>✔ Continuous Control:</strong> Admin can remove or disable products anytime to maintain platform quality.</p>
+
+  <p><strong>✔ Clean & Minimal UI:</strong> Designed to reduce cognitive load and improve usability across all user types.</p>
+
+</div>
+  <div class="cs-section fade-up">
+  <p class="cs-section-label">Process</p>
+  <h2>Design Process</h2>
+
+  <p>
+    The design process began by identifying a key gap in existing e-commerce platforms — the lack of trust caused by unverified product listings.
+    I focused on creating a system that balances seller freedom with platform control.
+  </p>
+
+  <p>
+    I first mapped out the complete flow between three user roles — User, Seller, and Admin — to understand how data and actions move across the system.
+    This helped in structuring the platform into three interconnected panels.
+  </p>
+
+  <p>
+    Low-fidelity wireframes were created to define layout and navigation, followed by high-fidelity UI design in Figma.
+    Special attention was given to simplifying the checkout process and making seller actions intuitive.
+  </p>
+
+  <div class="cs-highlight-box">
+    <p>
+      A major focus was designing a system that feels simple for users while handling complex logic in the background.
+    </p>
+  </div>
+</div>
+
+</div>
+
+<div class="cs-nav">
+  <div></div>
+  <a class="cs-nav-link right" href="trendsphere.html"><span class="nav-dir">Next →</span><span class="nav-name">TrendSphere</span></a>
+</div>
+
+<footer>
+  <span class="footer-logo">Disha<span style="color:var(--pink)">.</span></span>
+  <p>Designed & built by Disha Takawale · 2024</p>
+  <p style="font-size:.75rem">Mumbai, India</p>
+</footer>
+
+<script>
+  /* ── READING PROGRESS ── */
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    document.getElementById('read-progress').style.width = (window.scrollY / total * 100) + '%';
+  });
+
+  /* ── FADE ON SCROLL ── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  /* ── PANEL MODALS ── */
+  function openPanel(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePanel(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // backdrop click closes modal
+  document.querySelectorAll('.panel-modal-bg').forEach(bg => {
+    bg.addEventListener('click', function(e) {
+      if (e.target === this) closePanel(this.id);
+    });
+  });
+  // close buttons
+  document.querySelectorAll('.pmh-close').forEach(btn => {
+    btn.addEventListener('click', () => closePanel(btn.dataset.close));
+  });
+
+  /* ── LIGHTBOX ── */
+  let lbList = [], lbIdx = 0;
+
+  document.querySelectorAll('.ms-card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.stopPropagation();
+      const img = card.querySelector('img');
+      if (!img) return;
+      // build list from whichever modal is open
+      const modal = card.closest('.panel-modal-bg');
+      lbList = [...modal.querySelectorAll('.ms-card img')];
+      lbIdx = lbList.indexOf(img);
+      document.getElementById('lb-img').src = img.src;
+      document.getElementById('lb-img').alt = img.alt;
+      document.getElementById('lightbox').classList.add('open');
+    });
+  });
+
+  function lbClose() { document.getElementById('lightbox').classList.remove('open'); }
+  function lbNav(dir) {
+    if (!lbList.length) return;
+    lbIdx = (lbIdx + dir + lbList.length) % lbList.length;
+    const img = document.getElementById('lb-img');
+    img.style.opacity = '0';
+    setTimeout(() => { img.src = lbList[lbIdx].src; img.alt = lbList[lbIdx].alt; img.style.opacity = '1'; }, 140);
+  }
+
+  document.getElementById('lb-close').addEventListener('click', lbClose);
+  document.getElementById('lightbox').addEventListener('click', function(e){ if(e.target===this) lbClose(); });
+  document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); lbNav(-1); });
+  document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); lbNav(1); });
+
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('lightbox').classList.contains('open')) {
+      if (e.key === 'Escape') lbClose();
+      if (e.key === 'ArrowRight') lbNav(1);
+      if (e.key === 'ArrowLeft') lbNav(-1);
+      return;
+    }
+    if (e.key === 'Escape')
+      document.querySelectorAll('.panel-modal-bg.open').forEach(m => closePanel(m.id));
+  });
+</script>
+</body>
+</html>
