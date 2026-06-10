@@ -199,7 +199,10 @@
     .hero-photo{width:280px;height:340px}
   }
   @media(max-width:640px){.projects-grid,.dev-grid,.skills-cols{grid-template-columns:1fr}}
-
+@keyframes arthaP {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .4; }
+}
 </style>
 </head>
 <body>
@@ -343,7 +346,27 @@
   <p class="section-label">Development</p>
   <h2 class="section-title">Built <em>with code</em></h2>
   <div class="dev-grid">
-
+    <div class="dev-card fade-up">
+  <span style="display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;background:rgba(200,153,42,.12);border:1px solid rgba(200,153,42,.3);font-size:.68rem;font-weight:700;color:#7a5a18;margin-bottom:8px">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);animation:arthaP 1.5s ease-in-out infinite;display:inline-block"></span>
+    In Development
+  </span>
+  <h3>Artha</h3>
+  <p class="dev-type">Personal Finance Manager</p>
+  <p style="font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:14px">MERN-based platform for expense tracking, multi-credit-card management, billing cycles, and actionable financial insights.</p>
+  <p style="font-size:.78rem;color:var(--muted);font-style:italic;border-left:2px solid rgba(200,153,42,.4);padding-left:10px;margin-bottom:18px;line-height:1.6">Upcoming: automated reminders, smart insights, WhatsApp expense capture.</p>
+  <div class="tech-list">
+    <span class="tech">React.js</span>
+    <span class="tech">Node.js</span>
+    <span class="tech">Express.js</span>
+    <span class="tech">MongoDB</span>
+    <span class="tech">Tailwind CSS</span>
+  </div>
+  <div class="dev-links">
+    <button class="link-pill filled" disabled style="opacity:.55;cursor:not-allowed" title="Coming Soon">View Project</button>
+    <button class="link-pill" style="opacity:.45;cursor:not-allowed">Source Code</button>
+  </div>
+</div>
     <div class="dev-card fade-up">
       <h3>InterviewIQ</h3>
       <p class="dev-type">AI Interview Anxiety Detector</p>
@@ -404,7 +427,7 @@
     <h2 class="section-title skills-title">Skills & <em style="color:rgba(253,246,232,.35)">Expertise</em></h2>
     <div class="skills-cols">
       <div class="skill-cat"><h4>Languages</h4><div><span class="skill-pill">C++</span><span class="skill-pill">JavaScript</span><span class="skill-pill">Python</span><span class="skill-pill">SQL</span></div></div>
-      <div class="skill-cat"><h4>Web Technologies</h4><div><span class="skill-pill">React</span><span class="skill-pill">Next.js</span><span class="skill-pill">Node.js</span><span class="skill-pill">HTML / CSS</span><span class="skill-pill">Tailwind CSS</span></div></div>
+      <div class="skill-cat"><h4>Web Technologies</h4><div><span class="skill-pill">React</span><span class="skill-pill">Next.js</span><span class="skill-pill">Node.js</span><span class="skill-pill">HTML / CSS</span><span class="skill-pill">Tailwind CSS</span><span class="skill-pill">MongoDB</span></div></div>
       <div class="skill-cat"><h4>Design & Tools</h4><div><span class="skill-pill">Figma</span><span class="skill-pill">Git</span><span class="skill-pill">Supabase</span><span class="skill-pill">Photoshop</span><span class="skill-pill">Coral Draw</span><span class="skill-pill">Canva</span></div></div>
     </div>
   </div>
